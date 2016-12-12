@@ -31,7 +31,7 @@ export default class joke extends Component {
 
     var self = this;
 
-    fetch('***', {  
+    fetch('*', {  
           headers: new Headers({
             'Content-Type': 'text/plain'
           }),
