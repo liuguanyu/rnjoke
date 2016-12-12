@@ -31,7 +31,7 @@ export default class joke extends Component {
 
     var self = this;
 
-    fetch('http://xiaohua.360.cn', {  
+    fetch('***', {  
           headers: new Headers({
             'Content-Type': 'text/plain'
           }),
