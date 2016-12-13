@@ -13,44 +13,34 @@ import {
   Image
 } from 'react-native';
 
-import SplashScreen from './splash.js'
+import SplashScreen from './splash.js';
+import Haoshuzi from './model/haoshuzi.js';
 
 export default class joke extends Component {
-  // 初始化模拟数据
   constructor(props) {
     super(props);
 
-    const ds = new ListView.DataSource({
+    this.ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
       pageSize: 10
     });
 
     this.state = {
-      dataSource: ds.cloneWithRows([])
+      dataSource: this.ds.cloneWithRows([])
     };
 
-    var self = this;
+    this.initList();
+  }
 
-    fetch('*', {  
-          headers: new Headers({
-            'Content-Type': 'text/plain'
-          }),
-          method: "get"
-      })    
-      .then(function (response){
-        return response.text();
-      })
-      .then(function (data){
-        var m = data.match(/var jingxuanList = (.*?);/);
-        var jokes = JSON.parse(m[1]).map(function (node){
-          return node;
-        });
-
-        self.setState({"dataSource": ds.cloneWithRows(jokes)});
-      })
-      .catch(function (err){
-        console.log(err);
-      });
+  async initList (){
+    let sz = new Haoshuzi();
+    try{
+      let jokes = await sz.fetchContent();
+      this.setState({"dataSource": this.ds.cloneWithRows(jokes)});
+    }
+    catch(e){
+      console.log(e);
+    }
   }
 
   _renderRow(rowData){
